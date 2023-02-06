@@ -19,3 +19,5 @@
     name: mvn
     path: "{{ adrianjuhl__maven__maven_install_dir }}/apache-maven-{{ adrianjuhl__maven__maven_version }}/bin/mvn"
     link: /usr/bin/mvn
+  become: true
+
