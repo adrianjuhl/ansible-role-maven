@@ -4,4 +4,4 @@
 adrianjuhl__maven__maven_version_major: 3
 adrianjuhl__maven__maven_version: 3.8.7
 adrianjuhl__maven__maven_install_dir: /opt/maven
-adrianjuhl__maven__maven_download_file: "http://www.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries/apache-maven-{{ adrianjuhl__maven__maven_version }}-bin.tar.gz"
+adrianjuhl__maven__maven_download_file: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries/apache-maven-{{ adrianjuhl__maven__maven_version }}-bin.tar.gz"
