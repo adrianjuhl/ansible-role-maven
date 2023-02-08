@@ -3,10 +3,12 @@
 
 adrianjuhl__maven__maven_version_major: 3
 adrianjuhl__maven__maven_version: 3.8.7
-adrianjuhl__maven__maven_install_dir: /opt/maven
-adrianjuhl__maven__maven_source_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries"
 adrianjuhl__maven__maven_filename: "apache-maven-{{ adrianjuhl__maven__maven_version }}-bin.tar.gz"
-
+adrianjuhl__maven__maven_install_directory: /opt/maven
+adrianjuhl__maven__maven_source_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries"
 adrianjuhl__maven__maven_download_directory: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
 
-#adrianjuhl__maven__maven_download_file: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries/apache-maven-{{ adrianjuhl__maven__maven_version }}-bin.tar.gz"
+adrianjuhl__maven__maven_file_checksums:
+  3.8.6: "c7047a48deb626abf26f71ab3643d296db9b1e67f1faa7d988637deac876b5a9"
+
+
