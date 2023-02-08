@@ -17,7 +17,7 @@
   get_url:
     url: "{{ adrianjuhl__maven__maven_source_directory }}/{{ adrianjuhl__maven__maven_filename }}"
     dest: "{{ adrianjuhl__maven__maven_download_directory }}/{{ adrianjuhl__maven__maven_filename }}"
-    checksum: "sha512:{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] }}"
+    checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] }}"
     force: no
 #    use_proxy: '{{ maven_use_proxy }}'
 #    validate_certs: '{{ maven_validate_certs }}'
