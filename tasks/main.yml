@@ -3,7 +3,7 @@
 
 - name: Create maven install directory.
   file:
-    dest: "{{ adrianjuhl__maven__maven_install_dir }}"
+    dest: "{{ adrianjuhl__maven__maven_install_directory }}"
     state: directory
   become: true
 
