@@ -27,14 +27,14 @@
 - name: Unarchive maven.
   unarchive:
     src: "{{ adrianjuhl__maven__maven_download_directory }}/{{ adrianjuhl__maven__maven_filename }}"
-    dest: "{{ adrianjuhl__maven__maven_install_dir }}"
+    dest: "{{ adrianjuhl__maven__maven_install_directory }}"
     copy: false
   become: true
 
 - name: Install maven alternative
   community.general.alternatives:
     name: mvn
-    path: "{{ adrianjuhl__maven__maven_install_dir }}/apache-maven-{{ adrianjuhl__maven__maven_version }}/bin/mvn"
+    path: "{{ adrianjuhl__maven__maven_install_directory }}/apache-maven-{{ adrianjuhl__maven__maven_version }}/bin/mvn"
     link: /usr/bin/mvn
   become: true
 
