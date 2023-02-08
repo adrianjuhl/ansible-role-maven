@@ -7,6 +7,12 @@
     state: directory
   become: true
 
+- name: Create download directory
+  file:
+    state: directory
+    mode: "u=rwx,go=rx"
+    dest: "{{ adrianjuhl__maven__maven_download_directory }}"
+
 - name: Download Maven
   get_url:
     url: "{{ adrianjuhl__maven__maven_source_directory }}/{{ adrianjuhl__maven__maven_filename }}"
