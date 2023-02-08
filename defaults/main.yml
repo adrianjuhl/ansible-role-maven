@@ -10,5 +10,5 @@ adrianjuhl__maven__maven_download_directory: "{{ x_ansible_download_dir | defaul
 
 adrianjuhl__maven__maven_file_checksums:
   3.8.6: "c7047a48deb626abf26f71ab3643d296db9b1e67f1faa7d988637deac876b5a9"
-  3.9.0: "1ea149f4e48bc7b34d554aef86f948eca7df4e7874e30caf449f3708e4f8487c71a5e5c072a05f17c60406176ebeeaf56b5f895090c7346f8238e2da06cf6ecd"
+  3.9.1: "1ea149f4e48bc7b34d554aef86f948eca7df4e7874e30caf449f3708e4f8487c71a5e5c072a05f17c60406176ebeeaf56b5f895090c7346f8238e2da06cf6ecd"
 
