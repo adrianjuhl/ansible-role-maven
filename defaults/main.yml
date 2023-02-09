@@ -17,3 +17,6 @@ adrianjuhl__maven__maven_file_checksums:
 
 adrianjuhl__maven__maven_file_checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] | default('sha256:9876543210') }}"
 
+adrianjuhl__maven__alternatives_priority: 50
+adrianjuhl__maven__alternatives_state: selected
+

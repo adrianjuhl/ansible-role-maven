@@ -37,5 +37,7 @@
     name: mvn
     path: "{{ adrianjuhl__maven__maven_install_directory }}/apache-maven-{{ adrianjuhl__maven__maven_version }}/bin/mvn"
     link: /usr/bin/mvn
+    priority: "{{ adrianjuhl__maven__alternatives_priority }}"
+    state: "{{ adrianjuhl__maven__alternatives_state }}"
   become: true
 
