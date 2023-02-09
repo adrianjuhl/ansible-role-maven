@@ -16,7 +16,7 @@ adrianjuhl__maven__maven_file_checksums:
   3.9.0: "sha512:11ea149f4e48bc7b34d554aef86f948eca7df4e7874e30caf449f3708e4f8487c71a5e5c072a05f17c60406176ebeeaf56b5f895090c7346f8238e2da06cf6ecd"
 
 #adrianjuhl__maven__maven_file_checksum: "sha512:1234"
-adrianjuhl__maven__maven_file_checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] | default('sha512:undefined') }}"
+adrianjuhl__maven__maven_file_checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] | default('sha512:9876543210') }}"
 
 #adrianjuhl__maven__
 
