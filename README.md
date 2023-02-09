@@ -4,7 +4,8 @@ Installs [maven](https://maven.apache.org).
 
 ## Requirements
 
-None.
+* Ansible >= 2.10
+* Ansible collection community.general >= 5.1.0
 
 ## Role Variables
 

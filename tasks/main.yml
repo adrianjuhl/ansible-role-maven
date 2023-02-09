@@ -1,29 +1,25 @@
 ---
 # tasks file for adrianjuhl.maven
 
-- name: Create maven install directory.
-  file:
-    dest: "{{ adrianjuhl__maven__maven_install_directory }}"
-    state: directory
-  become: true
-
 - name: Create download directory
   file:
+    dest: "{{ adrianjuhl__maven__maven_download_directory }}"
     state: directory
     mode: "u=rwx,go=rx"
-    dest: "{{ adrianjuhl__maven__maven_download_directory }}"
 
 - name: Download Maven
   get_url:
     url: "{{ adrianjuhl__maven__maven_source_directory }}/{{ adrianjuhl__maven__maven_filename }}"
     dest: "{{ adrianjuhl__maven__maven_download_directory }}/{{ adrianjuhl__maven__maven_filename }}"
     checksum: "{{ adrianjuhl__maven__maven_file_checksum }}"
-#    checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] | default(adrianjuhl__maven__maven_file_checksum) }}"
     force: no
-#    use_proxy: '{{ maven_use_proxy }}'
-#    validate_certs: '{{ maven_validate_certs }}'
-#    timeout: '{{ maven_download_timeout }}'
     mode: "u=rw,go=r"
+
+- name: Create maven install directory.
+  file:
+    dest: "{{ adrianjuhl__maven__maven_install_directory }}"
+    state: directory
+  become: true
 
 - name: Unarchive maven.
   unarchive:
