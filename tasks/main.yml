@@ -23,7 +23,7 @@
 #    use_proxy: '{{ maven_use_proxy }}'
 #    validate_certs: '{{ maven_validate_certs }}'
 #    timeout: '{{ maven_download_timeout }}'
-#    mode: 'u=rw,go=r'
+    mode: "u=rw,go=r"
 
 - name: Unarchive maven.
   unarchive:
