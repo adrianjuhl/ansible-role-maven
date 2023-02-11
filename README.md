@@ -41,9 +41,27 @@ The source location of the maven download file.
 
 **maven_download_directory**
 
-    adrianjuhl__maven__maven_download_directory: "{{ default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+    adrianjuhl__maven__maven_download_directory: "{{ ansible_env.HOME + '/.ansible/tmp/downloads' }}"
 
 The directory into which the maven download file is to be placed.
+
+**maven_file_checksum**
+
+    adrianjuhl__maven__maven_file_checksum: "{{ adrianjuhl__maven__maven_file_checksums[adrianjuhl__maven__maven_version] | default('sha256:9876543210') }}"
+
+The checksum with which to check the downloaded file.
+
+**alternatives_priority**
+
+    adrianjuhl__maven__alternatives_priority: 50
+
+The priority to give the installed maven version.
+
+**alternatives_state**
+
+    adrianjuhl__maven__alternatives_state: selected
+
+The state that the alternative is to be set to. Options include: present, selected, auto, absent. see: https://docs.ansible.com/ansible/latest/collections/community/general/alternatives_module.html
 
 ## Dependencies
 
