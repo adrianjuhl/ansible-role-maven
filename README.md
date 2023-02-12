@@ -65,27 +65,27 @@ The state that the alternative is to be set to. Options include: present, select
 
 ### Supported maven versions
 
-The following version of maven are supported for install without any further configuration:
+The following versions of maven are supported for install without any further configuration:
 
-`3.9.0`,
+`3.9.0`
 
-`3.8.1`, `3.8.2`, `3.8.3`, `3.8.4`, `3.8.5`, `3.8.6`, `3.8.7`,
+`3.8.7` `3.8.6` `3.8.5` `3.8.4` `3.8.3` `3.8.2` `3.8.1`
 
-`3.6.0`, `3.6.1`, `3.6.2`, `3.6.3`,
+`3.6.3` `3.6.2` `3.6.1` `3.6.0`
 
-`3.5.3`, `3.5.4`,
+`3.5.4` `3.5.3`
 
-`3.3.9`,
+`3.3.9`
 
-`3.2.5`,
+`3.2.5`
 
-`3.1.1`,
+`3.1.1`
 
 `3.0.5`
 
-For other versions, the variable `adrianjuhl__maven__file_checksum` needs to be set to either:
-* the checksum of the maven file being downloaded, in the format `<algorithm>:<checksum>`, so as to check the validity of the download, or,
-* `""` (the empty string), to skip the checksum check
+For other versions, the variable `adrianjuhl__maven__file_checksum` needs to be set in one of two ways depending on whether checksum validation is desired:
+* if checksum validation of the download file is desired, set the value of `adrianjuhl__maven__file_checksum` to the checksum for the version of the maven file being downloaded, in the format `<algorithm>:<checksum>`, for example: `adrianjuhl__maven__file_checksum: "sha1:c8f257dce3381d9d8c420168a6df0fa25664337c"`
+* if checksum validation is not required, set the value of this variable to the empty string `""`, for example: `adrianjuhl__maven__file_checksum: ""`
 
 ## Dependencies
 
