@@ -2,30 +2,6 @@
 
 Installs [maven](https://maven.apache.org).
 
-**Supported maven versions**
-
-The following version of maven are supported for install without any further configuration:
-
-`3.9.0`,
-
-`3.8.1`, `3.8.2`, `3.8.3`, `3.8.4`, `3.8.5`, `3.8.6`, `3.8.7`,
-
-`3.6.0`, `3.6.1`, `3.6.2`, `3.6.3`,
-
-`3.5.3`, `3.5.4`,
-
-`3.3.9`,
-
-`3.2.5`,
-
-`3.1.1`,
-
-`3.0.5`
-
-For other versions, the variable `adrianjuhl__maven__file_checksum` needs to be set to either:
-* the checksum of the maven file being downloaded, in the format `<algorithm>:<checksum>`, so as to check the validity of the download, or,
-* `""` (the empty string), to skip the checksum check
-
 ## Requirements
 
 * Ansible >= 2.10
@@ -86,6 +62,30 @@ The priority to give the installed maven version.
     adrianjuhl__maven__alternatives_state: selected
 
 The state that the alternative is to be set to. Options include: present, selected, auto, absent. see: https://docs.ansible.com/ansible/latest/collections/community/general/alternatives_module.html
+
+### Supported maven versions
+
+The following version of maven are supported for install without any further configuration:
+
+`3.9.0`,
+
+`3.8.1`, `3.8.2`, `3.8.3`, `3.8.4`, `3.8.5`, `3.8.6`, `3.8.7`,
+
+`3.6.0`, `3.6.1`, `3.6.2`, `3.6.3`,
+
+`3.5.3`, `3.5.4`,
+
+`3.3.9`,
+
+`3.2.5`,
+
+`3.1.1`,
+
+`3.0.5`
+
+For other versions, the variable `adrianjuhl__maven__file_checksum` needs to be set to either:
+* the checksum of the maven file being downloaded, in the format `<algorithm>:<checksum>`, so as to check the validity of the download, or,
+* `""` (the empty string), to skip the checksum check
 
 ## Dependencies
 
