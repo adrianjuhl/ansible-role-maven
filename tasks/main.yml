@@ -1,6 +1,10 @@
 ---
 # tasks file for adrianjuhl.maven
 
+- name: Example print message
+  ansible.builtin.debug:
+    msg: "hello from role adrianjuhl.maven - variable adrianjuhl__maven__file_checksum has the value: {{ adrianjuhl__maven__file_checksum }} "
+
 - name: Create download directory
   file:
     dest: "{{ adrianjuhl__maven__download_directory }}"

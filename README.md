@@ -17,7 +17,7 @@ The major version of maven to install. Used to determine the URL to the maven in
 
 **version**
 
-    adrianjuhl__maven__version: 3.8.7
+    adrianjuhl__maven__version: 3.9.0
 
 The version of maven to install.
 
@@ -67,7 +67,7 @@ The state that the alternative is to be set to. Options include: present, select
 
 The following versions of maven are supported for install without any further configuration:
 
-`3.9.0`
+`3.9.0` (default)
 
 `3.8.7` `3.8.6` `3.8.5` `3.8.4` `3.8.3` `3.8.2` `3.8.1`
 
@@ -104,6 +104,33 @@ or
     - name: Install maven
       include_role:
         name: adrianjuhl.maven
+```
+
+To install a particular version:
+
+```
+- hosts: servers
+  tasks:
+    - name: Install maven 3.8.7
+      include_role:
+        name: adrianjuhl.maven
+      vars:
+        adrianjuhl__maven__maven_version: 3.8.7
+```
+
+To install a particular version (that this role does not support without addition configuration), in addition to setting its alternatives priority and state
+
+```
+- hosts: servers
+  tasks:
+    - name: Install maven 3.2.1
+      include_role:
+        name: adrianjuhl.maven
+      vars:
+        adrianjuhl__maven__maven_version: 3.2.1
+        adrianjuhl__maven__file_checksum: "sha1:40e1bf0775fd3ebcac1dbeb61153b871b86b894f"
+        adrianjuhl__maven__alternatives_priority: 100
+        adrianjuhl__maven__alternatives_state: auto
 ```
 
 ## License
