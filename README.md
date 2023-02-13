@@ -2,6 +2,8 @@
 
 Installs [maven](https://maven.apache.org).
 
+The `mvn` command is incorporated into the alternatives system.
+
 ## Requirements
 
 * Ansible >= 2.10
@@ -9,7 +11,7 @@ Installs [maven](https://maven.apache.org).
 
 ## Role Variables
 
-**maven_version_major**
+**version_major**
 
     adrianjuhl__maven__version_major: 3
 
@@ -41,7 +43,7 @@ The source location of the maven download file.
 
 **download_directory**
 
-    adrianjuhl__maven__download_directory: "{{ ansible_env.HOME + '/.ansible/tmp/downloads' }}"
+    adrianjuhl__maven__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
 
 The directory into which the maven download file is to be placed.
 
@@ -115,10 +117,10 @@ To install a particular version:
       include_role:
         name: adrianjuhl.maven
       vars:
-        adrianjuhl__maven__maven_version: 3.8.7
+        adrianjuhl__maven__version: 3.8.7
 ```
 
-To install a particular version (that this role does not support without addition configuration), in addition to setting its alternatives priority and state
+To install a particular version (that this role does not support without addition configuration) such that the download is validated with a given checksum, in addition to setting its alternatives priority and state:
 
 ```
 - hosts: servers
@@ -127,7 +129,7 @@ To install a particular version (that this role does not support without additio
       include_role:
         name: adrianjuhl.maven
       vars:
-        adrianjuhl__maven__maven_version: 3.2.1
+        adrianjuhl__maven__version: 3.2.1
         adrianjuhl__maven__file_checksum: "sha1:40e1bf0775fd3ebcac1dbeb61153b871b86b894f"
         adrianjuhl__maven__alternatives_priority: 100
         adrianjuhl__maven__alternatives_state: auto
