@@ -1,0 +1,36 @@
+---
+# tasks file for adrianjuhl.maven
+
+- name: Create download directory
+  file:
+    dest: "{{ adrianjuhl__maven__download_directory }}"
+    state: directory
+    mode: "u=rwx,go=rx"
+
+- name: Download Maven
+  get_url:
+    url: "{{ adrianjuhl__maven__source_directory }}/{{ adrianjuhl__maven__archive_filename }}"
+    dest: "{{ adrianjuhl__maven__download_directory }}"
+    checksum: "{{ adrianjuhl__maven__archive_file_checksum }}"
+    force: no
+    mode: "u=rw,go=r"
+
+- name: Create maven install directory.
+  file:
+    dest: "{{ adrianjuhl__maven__install_directory }}"
+    state: directory
+
+- name: Unarchive maven.
+  unarchive:
+    src: "{{ adrianjuhl__maven__download_directory }}/{{ adrianjuhl__maven__archive_filename }}"
+    dest: "{{ adrianjuhl__maven__install_directory }}"
+    copy: false
+
+- name: Install maven alternative
+  community.general.alternatives:
+    name: mvn
+    path: "{{ adrianjuhl__maven__install_directory }}/apache-maven-{{ adrianjuhl__maven__version }}/bin/mvn"
+    link: /usr/bin/mvn
+    priority: "{{ adrianjuhl__maven__alternatives_priority }}"
+    state: "{{ adrianjuhl__maven__alternatives_state }}"
+

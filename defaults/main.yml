@@ -1,0 +1,80 @@
+---
+# defaults file for adrianjuhl.maven
+
+adrianjuhl__maven__version: "3.9.6"
+
+adrianjuhl__maven__version_major: "{{ adrianjuhl__maven__version.split('.')[0] }}"
+
+adrianjuhl__maven__archive_filename: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
+
+adrianjuhl__maven__install_directory: "/opt/maven"
+
+adrianjuhl__maven__source_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/binaries"
+
+adrianjuhl__maven__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+
+adrianjuhl__maven__archive_file_checksums:
+  3.0.5:
+    algorithm: "sha1"
+    checksum: "aecc0d3d67732939c0056d4a0d8510483ee1167e"
+  3.1.1:
+    algorithm: "sha1"
+    checksum: "630eea2107b0742acb315b214009ba08602dda5f"
+  3.2.5:
+    algorithm: "sha1"
+    checksum: "41009327d5494e0e8970b25b77ffed8934cd7ca1"
+  3.3.9:
+    algorithm: "sha1"
+    checksum: "5b4c117854921b527ab6190615f9435da730ba05"
+  3.5.3:
+    algorithm: "sha512"
+    checksum: "5b36a2289606cfaf9177991f889993742a485a48b9fb7ca43b67fbbe1a978a258fc971e0dce3b63d51d235abdf49f771c99900b2e77ee2a793825913ea32971b"
+  3.5.4:
+    algorithm: "sha512"
+    checksum: "2a803f578f341e164f6753e410413d16ab60fabe31dc491d1fe35c984a5cce696bc71f57757d4538fe7738be04065a216f3ebad4ef7e0ce1bb4c51bc36d6be86"
+  3.6.0:
+    algorithm: "sha512"
+    checksum: "fae9c12b570c3ba18116a4e26ea524b29f7279c17cbaadc3326ca72927368924d9131d11b9e851b8dc9162228b6fdea955446be41207a5cfc61283dd8a561d2f"
+  3.6.1:
+    algorithm: "sha512"
+    checksum: "b4880fb7a3d81edd190a029440cdf17f308621af68475a4fe976296e71ff4a4b546dd6d8a58aaafba334d309cc11e638c52808a4b0e818fc0fd544226d952544"
+  3.6.2:
+    algorithm: "sha512"
+    checksum: "d941423d115cd021514bfd06c453658b1b3e39e6240969caf4315ab7119a77299713f14b620fb2571a264f8dff2473d8af3cb47b05acf0036fc2553199a5c1ee"
+  3.6.3:
+    algorithm: "sha512"
+    checksum: "c35a1803a6e70a126e80b2b3ae33eed961f83ed74d18fcd16909b2d44d7dada3203f1ffe726c17ef8dcca2dcaa9fca676987befeadc9b9f759967a8cb77181c0"
+  3.8.1:
+    algorithm: "sha512"
+    checksum: "0ec48eb515d93f8515d4abe465570dfded6fa13a3ceb9aab8031428442d9912ec20f066b2afbf56964ffe1ceb56f80321b50db73cf77a0e2445ad0211fb8e38d"
+  3.8.2:
+    algorithm: "sha512"
+    checksum: "b0bf39460348b2d8eae1c861ced6c3e8a077b6e761fb3d4669be5de09490521a74db294cf031b0775b2dfcd57bd82246e42ce10904063ef8e3806222e686f222"
+  3.8.3:
+    algorithm: "sha512"
+    checksum: "1c12a5df43421795054874fd54bb8b37d242949133b5bf6052a063a13a93f13a20e6e9dae2b3d85b9c7034ec977bbc2b6e7f66832182b9c863711d78bfe60faa"
+  3.8.4:
+    algorithm: "sha512"
+    checksum: "a9b2d825eacf2e771ed5d6b0e01398589ac1bfa4171f36154d1b5787879605507802f699da6f7cfc80732a5282fd31b28e4cd6052338cbef0fa1358b48a5e3c8"
+  3.8.5:
+    algorithm: "sha512"
+    checksum: "89ab8ece99292476447ef6a6800d9842bbb60787b9b8a45c103aa61d2f205a971d8c3ddfb8b03e514455b4173602bd015e82958c0b3ddc1728a57126f773c743"
+  3.8.6:
+    algorithm: "sha512"
+    checksum: "f790857f3b1f90ae8d16281f902c689e4f136ebe584aba45e4b1fa66c80cba826d3e0e52fdd04ed44b4c66f6d3fe3584a057c26dfcac544a60b301e6d0f91c26"
+  3.8.7:
+    algorithm: "sha512"
+    checksum: "21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27"
+  3.9.0:
+    algorithm: "sha512"
+    checksum: "1ea149f4e48bc7b34d554aef86f948eca7df4e7874e30caf449f3708e4f8487c71a5e5c072a05f17c60406176ebeeaf56b5f895090c7346f8238e2da06cf6ecd"
+  3.9.6:
+    algorithm: "sha512"
+    checksum: "706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18224"
+
+adrianjuhl__maven__archive_file_checksum: "{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].checksum }}"
+
+adrianjuhl__maven__alternatives_priority: 50
+
+adrianjuhl__maven__alternatives_state: "selected"
+
