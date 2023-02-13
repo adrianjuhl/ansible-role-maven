@@ -1,13 +1,6 @@
 ---
 # tasks file for adrianjuhl.maven
 
-- name: Example print message
-  ansible.builtin.debug:
-    msg: "hello from role adrianjuhl.maven - variable adrianjuhl__maven__file_checksum has the value: {{ adrianjuhl__maven__file_checksum }}"
-- name: Example print message
-  ansible.builtin.debug:
-    msg: "hello from role adrianjuhl.maven - variable adrianjuhl__maven__filename has the value: {{ adrianjuhl__maven__filename }}"
-
 - name: Create download directory
   file:
     dest: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
@@ -17,7 +10,7 @@
 - name: Download Maven
   get_url:
     url: "{{ adrianjuhl__maven__source_directory }}/{{ adrianjuhl__maven__filename }}"
-    dest: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+    dest: "{{ adrianjuhl__maven__download_directory }}"
     checksum: "{{ adrianjuhl__maven__file_checksum }}"
     force: no
     mode: "u=rw,go=r"
@@ -30,7 +23,7 @@
 
 - name: Unarchive maven.
   unarchive:
-    src: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/{{ adrianjuhl__maven__filename }}"
+    src: "{{ adrianjuhl__maven__download_directory }}/{{ adrianjuhl__maven__filename }}"
     dest: "{{ adrianjuhl__maven__install_directory }}"
     copy: false
   become: true

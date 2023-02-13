@@ -2,11 +2,16 @@
 # defaults file for adrianjuhl.maven
 
 adrianjuhl__maven__version_major: 3
+
 adrianjuhl__maven__version: 3.9.0
+
 adrianjuhl__maven__filename: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
+
 adrianjuhl__maven__install_directory: /opt/maven
+
 adrianjuhl__maven__source_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/binaries"
-adrianjuhl__maven__download_directory: "{{ ansible_env.HOME + '/.ansible/tmp/downloads' }}"
+
+adrianjuhl__maven__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
 
 adrianjuhl__maven__file_checksums:
   3.0.5: "sha1:aecc0d3d67732939c0056d4a0d8510483ee1167e"
@@ -31,5 +36,6 @@ adrianjuhl__maven__file_checksums:
 adrianjuhl__maven__file_checksum: "{{ adrianjuhl__maven__file_checksums[adrianjuhl__maven__version] }}"
 
 adrianjuhl__maven__alternatives_priority: 50
+
 adrianjuhl__maven__alternatives_state: selected
 
