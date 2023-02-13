@@ -3,7 +3,7 @@
 
 - name: Create download directory
   file:
-    dest: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+    dest: "{{ adrianjuhl__maven__download_directory }}"
     state: directory
     mode: "u=rwx,go=rx"
 
