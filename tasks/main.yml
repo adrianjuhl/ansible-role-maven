@@ -30,7 +30,7 @@
 
 - name: Unarchive maven.
   unarchive:
-    src: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+    src: "{{ adrianjuhl__maven__download_directory }}/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/{{ adrianjuhl__maven__filename }}"
     dest: "{{ adrianjuhl__maven__install_directory }}"
     copy: false
   become: true
