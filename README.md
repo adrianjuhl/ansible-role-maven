@@ -19,7 +19,7 @@ The major version of maven to install. Used to determine the URL to the maven in
 
 **version**
 
-    adrianjuhl__maven__version: 3.9.0
+    adrianjuhl__maven__version: 3.9.6
 
 The version of maven to install.
 
@@ -69,7 +69,9 @@ The state that the alternative is to be set to. Options include: present, select
 
 The following versions of maven are supported for install without any further configuration:
 
-`3.9.0` (default)
+`3.9.6` (default)
+
+`3.9.0`
 
 `3.8.7` `3.8.6` `3.8.5` `3.8.4` `3.8.3` `3.8.2` `3.8.1`
 

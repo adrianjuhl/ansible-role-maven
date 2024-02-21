@@ -3,7 +3,7 @@
 
 adrianjuhl__maven__version_major: 3
 
-adrianjuhl__maven__version: 3.9.0
+adrianjuhl__maven__version: 3.9.6
 
 adrianjuhl__maven__filename: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
 
@@ -32,6 +32,7 @@ adrianjuhl__maven__file_checksums:
   3.8.6: "sha512:f790857f3b1f90ae8d16281f902c689e4f136ebe584aba45e4b1fa66c80cba826d3e0e52fdd04ed44b4c66f6d3fe3584a057c26dfcac544a60b301e6d0f91c26"
   3.8.7: "sha512:21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27"
   3.9.0: "sha512:1ea149f4e48bc7b34d554aef86f948eca7df4e7874e30caf449f3708e4f8487c71a5e5c072a05f17c60406176ebeeaf56b5f895090c7346f8238e2da06cf6ecd"
+  3.9.6: "sha512:706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18224"
 
 adrianjuhl__maven__file_checksum: "{{ adrianjuhl__maven__file_checksums[adrianjuhl__maven__version] }}"
 
