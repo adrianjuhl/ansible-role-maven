@@ -72,7 +72,7 @@ adrianjuhl__maven__maven_source_url_directory: "http://archive.apache.org/dist/m
 
 adrianjuhl__maven__maven_download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}"
 
-adrianjuhl__maven__mavne_install_directory: "/opt/maven"
+adrianjuhl__maven__maven_install_directory: "/opt/maven"
 
 adrianjuhl__maven__maven_alternatives_priority: 50
 
