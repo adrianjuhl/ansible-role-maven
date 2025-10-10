@@ -89,7 +89,7 @@ install_maven()
     ASK_BECOME_PASS_OPTION="--ask-become-pass"
   fi
 
-  SOMETHING="--version"
+  SOMETHING=""
 
   ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
     --inventory="localhost," \
