@@ -9,14 +9,14 @@ Usage:  ${THIS_SCRIPT_NAME}
             [--dry_run]
             [--show_diff]
             [--verbose]
-            [--version=<version>]
-            [--archive_file_name=<archive_file_name>]
-            [--archive_file_checksum=<algorithm_and_checksum>]
-            [--source_url_directory=<source_url_directory>]
-            [--download_directory=<download_directory>]
-            [--install_directory=<install_directory>]
-            [--alternatives_priority=<alternatives_priority>]
-            [--alternatives_state=<alternatives_state>]
+            [--maven_version=<maven_version>]
+            [--maven_archive_file_name=<maven_archive_file_name>]
+            [--maven_archive_file_checksum=<algorithm_and_checksum>]
+            [--maven_source_url_directory=<maven_source_url_directory>]
+            [--maven_download_directory=<maven_download_directory>]
+            [--maven_install_directory=<maven_install_directory>]
+            [--maven_alternatives_priority=<maven_alternatives_priority>]
+            [--maven_alternatives_state=<maven_alternatives_state>]
             [--requires_become=<true|false>]
             [--help | -h]
             [--script_debug]
@@ -30,29 +30,29 @@ Available options:
         Show before/after changes to config.
     --verbose
         Show additional detail.
-    --version=<version>
+    --maven_version=<maven_version>
         The version of maven to install.
         Default: "3.9.6"
-    --archive_file_name=<archive_file_name>
+    --maven_archive_file_name=<maven_archive_file_name>
         The name of the maven archive file.
-        Default: "apache-maven-<version>-bin.tar.gz"
+        Default: "apache-maven-<maven_version>-bin.tar.gz"
         e.g. "apache-maven-3.9.6-bin.tar.gz"
-    --archive_file_checksum=<algorithm_and_checksum>
+    --maven_archive_file_checksum=<algorithm_and_checksum>
         The "algorithm:checksum" value of the archive file.
         Defaults to the correct value for the maven version.
-    --source_url_directory=<source_url_directory>
+    --maven_source_url_directory=<maven_source_url_directory>
         The URL of the directory where the archive file is to be downloaded from.
-        Default: "http://archive.apache.org/dist/maven/maven-<version_major>/<version>/binaries"
-    --download_directory=<download_directory>
+        Default: "http://archive.apache.org/dist/maven/maven-<maven_version_major>/<maven_version>/binaries"
+    --maven_download_directory=<maven_download_directory>
         The directory where the maven archive file is to be downloaded to.
-        Default: "/home/username/.ansible/tmp/downloads/maven/maven-3/3.9.6"
-    --install_directory=<install_directory>
+        Default: "/home/username/.ansible/tmp/downloads/maven/maven--<maven_version_major>/<maven_version>"
+    --maven_install_directory=<maven_install_directory>
         The directory in which to install maven.
         Default: "/opt/maven"
-    --alternatives_priority=<alternatives_priority>
+    --maven_alternatives_priority=<maven_alternatives_priority>
         The alternatives priority value to give to this installation of mvn.
         Default: 50
-    --alternatives_state=<alternatives_state>
+    --maven_alternatives_state=<maven_alternatives_state>
         The alternatives state to configure for this installation of mvn.
         Valid values: present, selected
         Default: selected
@@ -73,7 +73,18 @@ main()
   install_maven
 }
 
-set_extras_direcotry_variable()
+install_maven()
+{
+  set_extras_directory_variable
+  export ANSIBLE_ROLES_PATH="${EXTRAS_DIRECTORY}"/.ansible/roles/:${HOME}/.ansible/roles/
+  install_playbook_dependencies
+  construct_ansible_command_options_array
+  ansible-playbook \
+    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@]}" \
+    "${EXTRAS_DIRECTORY}"/.ansible/playbooks/install_maven.yml
+}
+
+set_extras_directory_variable()
 {
   EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.." || exit 1; pwd)"
   last_command_return_code="$?"
@@ -83,12 +94,8 @@ set_extras_direcotry_variable()
   fi
 }
 
-install_maven()
+install_playbook_dependencies()
 {
-  set_extras_direcotry_variable
-  #EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.."; pwd)"
-  export ANSIBLE_ROLES_PATH="${EXTRAS_DIRECTORY}"/.ansible/roles/:${HOME}/.ansible/roles/
-
   # Install the dependencies of the playbook:
   ANSIBLE_ROLES_PATH=${HOME}/.ansible/roles/ \
     && \
@@ -101,27 +108,25 @@ install_maven()
     msg "Error: ansible-galaxy role installations failed."
     abort_script
   fi
+}
 
-  ASK_BECOME_PASS_OPTION=""
-  if [ "${REQUIRES_BECOME}" = "${TRUE_STRING}" ]; then
-    ASK_BECOME_PASS_OPTION="--ask-become-pass"
-  fi
-
+construct_ansible_command_options_array()
+{
   ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY=(
     "${ANSIBLE_CHECK_MODE_ARGUMENT}"
     "${ANSIBLE_DIFF_MODE_ARGUMENT}"
     "${ANSIBLE_VERBOSE_ARGUMENT}" 
-    "${ASK_BECOME_PASS_OPTION}"
+    "${ANSIBLE_ASK_BECOME_PASS_OPTION}"
     "--inventory=localhost,"
     "--connection=local"
-    "--extra-vars=adrianjuhl__maven__version=${MAVEN_VERSION}"
-    "--extra-vars=adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}"
+    "--extra-vars=adrianjuhl__maven__maven_version=${MAVEN_VERSION}"
+    "--extra-vars=adrianjuhl__maven__maven_archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}"
     "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}"
-    "--extra-vars=adrianjuhl__maven__source_url_directory=${MAVEN_SOURCE_URL_DIRECTORY}"
-    "--extra-vars=adrianjuhl__maven__download_directory=${MAVEN_DOWNLOAD_DIRECTORY}"
-    "--extra-vars=adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}"
-    "--extra-vars=adrianjuhl__maven__alternatives_priority=${MAVEN_ALTERNATIVES_PRIORITY}"
-    "--extra-vars=adrianjuhl__maven__alternatives_state=${MAVEN_ALTERNATIVES_STATE}"
+    "--extra-vars=adrianjuhl__maven__maven_source_url_directory=${MAVEN_SOURCE_URL_DIRECTORY}"
+    "--extra-vars=adrianjuhl__maven__maven_download_directory=${MAVEN_DOWNLOAD_DIRECTORY}"
+    "--extra-vars=adrianjuhl__maven__maven_install_directory=${MAVEN_INSTALL_DIRECTORY}"
+    "--extra-vars=adrianjuhl__maven__maven_alternatives_priority=${MAVEN_ALTERNATIVES_PRIORITY}"
+    "--extra-vars=adrianjuhl__maven__maven_alternatives_state=${MAVEN_ALTERNATIVES_STATE}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
   echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[*]}<<"
@@ -133,10 +138,6 @@ install_maven()
     fi
   done
   echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[*]}<<"
-  ansible-playbook \
-    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@]}" \
-    "${EXTRAS_DIRECTORY}"/.ansible/playbooks/install_maven.yml
-
 }
 
 parse_script_params()
@@ -149,7 +150,7 @@ parse_script_params()
   MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   MAVEN_SOURCE_URL_DIRECTORY=""
   MAVEN_DOWNLOAD_DIRECTORY=""
-  INSTALL_DIRECTORY="/opt/maven"
+  MAVEN_INSTALL_DIRECTORY="/opt/maven"
   MAVEN_ALTERNATIVES_PRIORITY="50"
   MAVEN_ALTERNATIVES_STATE="selected"
   REQUIRES_BECOME="${TRUE_STRING}"
@@ -161,30 +162,30 @@ parse_script_params()
   while [ "${#}" -gt 0 ]
   do
     case "${1-}" in
-      --version=*)
+      --maven_version=*)
         MAVEN_VERSION="${1#*=}"
         ;;
-      --archive_file_name=*)
+      --maven_archive_file_name=*)
         MAVEN_ARCHIVE_FILE_NAME_PARAM="${1#*=}"
         MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${TRUE_STRING}"
         ;;
-      --archive_file_checksum=*)
+      --maven_archive_file_checksum=*)
         MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM="${1#*=}"
         MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${TRUE_STRING}"
         ;;
-      --source_url_directory=*)
+      --maven_source_url_directory=*)
         MAVEN_SOURCE_URL_DIRECTORY="${1#*=}"
         ;;
-      --download_directory=*)
+      --maven_download_directory=*)
         MAVEN_DOWNLOAD_DIRECTORY="${1#*=}"
         ;;
-      --install_directory=*)
-        INSTALL_DIRECTORY="${1#*=}"
+      --maven_install_directory=*)
+        MAVEN_INSTALL_DIRECTORY="${1#*=}"
         ;;
-      --alternatives_priority=*)
+      --maven_alternatives_priority=*)
         MAVEN_ALTERNATIVES_PRIORITY="${1#*=}"
         ;;
-      --alternatives_state=*)
+      --maven_alternatives_state=*)
         MAVEN_ALTERNATIVES_STATE="${1#*=}"
         ;;
       --requires_become=*)
@@ -232,19 +233,19 @@ parse_script_params()
       abort_script
       ;;
   esac
+  ANSIBLE_ASK_BECOME_PASS_OPTION=""
+  if [ "${REQUIRES_BECOME}" = "${TRUE_STRING}" ]; then
+    ANSIBLE_ASK_BECOME_PASS_OPTION="--ask-become-pass"
+  fi
   if [ -z "${MAVEN_VERSION}" ]; then
-    msg "Error: Missing parameter value: --version"
+    msg "Error: Missing parameter value: --maven_version"
     abort_script
   fi
   MAVEN_VERSION_MAJOR="${MAVEN_VERSION%%.*}"
-#  if [ -z "${MAVEN_VERSION_PARAM}" ]; then
-#    MAVEN_VERSION="${MAVEN_VERSION_DEFAULT}"
-#  else
-#    MAVEN_VERSION="${MAVEN_VERSION_PARAM}"
-#  fi
+  #echo "MAVEN_VERSION_MAJOR is ${MAVEN_VERSION_MAJOR}"
   if [ "${MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT}" = "${TRUE_STRING}" ]; then
     if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
-      msg "Error: Missing parameter value: --archive_file_name"
+      msg "Error: Missing parameter value: --maven_archive_file_name"
       abort_script
     else
       MAVEN_ARCHIVE_FILE_NAME="${MAVEN_ARCHIVE_FILE_NAME_PARAM}"
@@ -254,100 +255,41 @@ parse_script_params()
   fi
   if [ "${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT}" = "${TRUE_STRING}" ]; then
     if [ -z "${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}" ]; then
-      msg "Error: Missing archive_file_checksum value: --archive_file_name"
+      msg "Error: Missing parameter value: --maven_archive_file_checksum"
       abort_script
     else
-      MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=adrianjuhl__maven__archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}"
+      MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=adrianjuhl__maven__maven_archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}"
     fi
   else
-#    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=" # Empty extra-vars expresion to satisfy the ansible-playbook command construction.
     MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   fi
   if [ -z "${MAVEN_SOURCE_URL_DIRECTORY}" ]; then
     MAVEN_SOURCE_URL_DIRECTORY="http://archive.apache.org/dist/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}/binaries"
   fi
-  echo "MAVEN_VERSION_MAJOR is ${MAVEN_VERSION_MAJOR}"
-  echo "MAVEN_SOURCE_URL_DIRECTORY is ${MAVEN_SOURCE_URL_DIRECTORY}"
+  #echo "MAVEN_SOURCE_URL_DIRECTORY is ${MAVEN_SOURCE_URL_DIRECTORY}"
   if [ -z "${MAVEN_DOWNLOAD_DIRECTORY}" ]; then
     MAVEN_DOWNLOAD_DIRECTORY="${HOME}/.ansible/tmp/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
   fi
-  echo "MAVEN_DOWNLOAD_DIRECTORY is ${MAVEN_DOWNLOAD_DIRECTORY}"
+  #echo "MAVEN_DOWNLOAD_DIRECTORY is ${MAVEN_DOWNLOAD_DIRECTORY}"
   if [ -z "${MAVEN_ALTERNATIVES_PRIORITY}" ]; then
-    msg "Error: Missing parameter value: --alternatives_priority"
+    msg "Error: Missing parameter value: --maven_alternatives_priority"
     abort_script
   fi
-  echo "MAVEN_ALTERNATIVES_PRIORITY is ${MAVEN_ALTERNATIVES_PRIORITY}"
+  #echo "MAVEN_ALTERNATIVES_PRIORITY is ${MAVEN_ALTERNATIVES_PRIORITY}"
   case "${MAVEN_ALTERNATIVES_STATE}" in
     "present")
       ;;
     "selected")
       ;;
     *)
-      msg "Error: Invalid alternatives_state parameter value: ${MAVEN_ALTERNATIVES_STATE}, expected one of: present, selected"
+      msg "Error: Invalid maven_alternatives_state parameter value: ${MAVEN_ALTERNATIVES_STATE}, expected one of: present, selected"
       abort_script
       ;;
   esac
-  echo "MAVEN_ALTERNATIVES_STATE is ${MAVEN_ALTERNATIVES_STATE}"
-
-#  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
-#    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-#  else
-#    MAVEN_ARCHIVE_FILE_NAME="${MAVEN_ARCHIVE_FILE_NAME_PARAM}"
-#  fi
+  #echo "MAVEN_ALTERNATIVES_STATE is ${MAVEN_ALTERNATIVES_STATE}"
   #echo "REQUIRES_BECOME_PARAM is: ${REQUIRES_BECOME_PARAM}"
   #echo "REQUIRES_BECOME is: ${REQUIRES_BECOME}"
 }
-
-#  initialize()
-#  {
-#    set -o pipefail
-#    THIS_SCRIPT_PROCESS_ID=$$
-#    initialize_this_script_directory_variable
-#    initialize_abort_script_config
-#    initialize_true_and_false_strings
-#  }
-#  
-#  initialize_this_script_directory_variable()
-#  {
-#    # THIS_SCRIPT_DIRECTORY where this script resides.
-#    # See: https://www.binaryphile.com/bash/2020/01/12/determining-the-location-of-your-script-in-bash.html
-#    # See: https://stackoverflow.com/a/67149152
-#    THIS_SCRIPT_DIRECTORY=$(cd "$(dirname -- "$BASH_SOURCE")"; cd -P -- "$(dirname "$(readlink -- "$BASH_SOURCE" || echo .)")"; pwd)
-#  }
-#  
-#  initialize_true_and_false_strings()
-#  {
-#    # Bash doesn't have a native true/false, just strings and numbers,
-#    # so this is as clear as it can be, using, for example:
-#    # if [ "${my_boolean_var}" = "${TRUE_STRING}" ]; then
-#    # where previously 'my_boolean_var' is set to either ${TRUE_STRING} or ${FALSE_STRING}
-#    TRUE_STRING="true"
-#    FALSE_STRING="false"
-#  }
-#  
-#  initialize_abort_script_config()
-#  {
-#    # Exit shell script from within the script or from any subshell within this script - adapted from:
-#    # https://cravencode.com/post/essentials/exit-shell-script-from-subshell/
-#    # Exit with exit status 1 if this (top level process of this script) receives the SIGUSR1 signal.
-#    # See also the abort_script() function which sends the signal.
-#    trap "exit 1" SIGUSR1
-#  }
-#  
-#  abort_script()
-#  {
-#    echo >&2 "aborting..."
-#    kill -SIGUSR1 ${THIS_SCRIPT_PROCESS_ID}
-#    exit
-#  }
-#  
-#  msg()
-#  {
-#    echo >&2 -e "${@}"
-#  }
-#  
-#  # Main entry into the script - call the main() function
-#  main "${@}"
 
 initialize()
 {
