@@ -89,6 +89,7 @@ install_maven()
     ASK_BECOME_PASS_OPTION="--ask-become-pass"
   fi
 
+  echo "MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM is: ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}"
   ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
     --inventory="localhost," \
     --connection=local \
