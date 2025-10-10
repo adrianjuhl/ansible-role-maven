@@ -96,7 +96,7 @@ install_maven()
     --connection=local \
     --extra-vars="adrianjuhl__maven__version=${MAVEN_VERSION}" \
     --extra-vars="adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}" \
-    " ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM} " \
+     ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}  \
     --extra-vars="adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}" \
     --extra-vars="local_playbook__install_maven__requires_become=${REQUIRES_BECOME}" \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
