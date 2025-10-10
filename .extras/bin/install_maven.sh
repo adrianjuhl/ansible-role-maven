@@ -66,17 +66,32 @@ main()
   install_maven
 }
 
+set_extras_direcotry_variable()
+{
+  EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.." || exit 1; pwd)"
+  last_command_return_code="$?"
+  if [ "${last_command_return_code}" -ne 0 ]; then
+    msg "Error: Failed to determine .extras directory."
+    abort_script
+  fi
+}
+
 install_maven()
 {
-  EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.."; pwd)"
+  set_extras_direcotry_variable
+  #EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.."; pwd)"
+
   export ANSIBLE_ROLES_PATH=${EXTRAS_DIRECTORY}/.ansible/roles/:${HOME}/.ansible/roles/
+  echo "ANSIBLE_ROLES_PATH is >>${ANSIBLE_ROLES_PATH}<<"
+  export ANSIBLE_ROLES_PATI="${EXTRAS_DIRECTORY}"/.ansible/roles/:${HOME}/.ansible/roles/
+  echo "ANSIBLE_ROLES_PATI is >>${ANSIBLE_ROLES_PATI}<<"
 
   # Install the dependencies of the playbook:
   ANSIBLE_ROLES_PATH=${HOME}/.ansible/roles/ \
     && \
     ansible-galaxy \
       install \
-      --role-file=${EXTRAS_DIRECTORY}/.ansible/roles/requirements_maven.yml \
+      --role-file="${EXTRAS_DIRECTORY}"/.ansible/roles/requirements_maven.yml \
       --force
   last_command_return_code="$?"
   if [ "${last_command_return_code}" -ne 0 ]; then
@@ -88,9 +103,6 @@ install_maven()
   if [ "${REQUIRES_BECOME}" = "${TRUE_STRING}" ]; then
     ASK_BECOME_PASS_OPTION="--ask-become-pass"
   fi
-
-  echo "MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM is: >>${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}<<"
-#    --extra-vars="adrianjuhl__maven__archive_file_checksum=sha512:706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18225" \
 
   ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY=(
     "${ANSIBLE_CHECK_MODE_ARGUMENT}"
@@ -105,7 +117,7 @@ install_maven()
     "--extra-vars=adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
-  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@]}<<"
+  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[*]}<<"
   ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY=()
   for element in "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@]}"; do
     trimmed_element="${element// /}"
@@ -113,19 +125,10 @@ install_maven()
       ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY+=("${trimmed_element}")
     fi
   done
-  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@]}<<"
-#  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
-#    --inventory="localhost," \
-#    --connection=local \
-#    --extra-vars=adrianjuhl__maven__version="${MAVEN_VERSION}" \
-#    --extra-vars=adrianjuhl__maven__archive_file_name="${MAVEN_ARCHIVE_FILE_NAME}" \
-#    "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM[@]}" \
-#    --extra-vars=adrianjuhl__maven__install_directory="${INSTALL_DIRECTORY}" \
-#    --extra-vars=local_playbook__install_maven__requires_become="${REQUIRES_BECOME}" \
-#    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
+  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[*]}<<"
   ansible-playbook \
     "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@]}" \
-    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
+    "${EXTRAS_DIRECTORY}"/.ansible/playbooks/install_maven.yml
 
 }
 
