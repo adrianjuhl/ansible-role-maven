@@ -110,6 +110,7 @@ install_maven()
     "--extra-vars=adrianjuhl__maven__version=${MAVEN_VERSION}"
     "--extra-vars=adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}"
     "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}"
+    "--extra-vars=adrianjuhl__maven__source_url_directory=${MAVEN_SOURCE_URL_DIRECTORY}"
     "--extra-vars=adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
@@ -136,6 +137,7 @@ parse_script_params()
   MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM=""
   MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${FALSE_STRING}"
   MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
+  MAVEN_SOURCE_URL_DIRECTORY=""
   INSTALL_DIRECTORY="/opt/maven"
   REQUIRES_BECOME="${TRUE_STRING}"
   REQUIRES_BECOME_PARAM=""
@@ -156,6 +158,9 @@ parse_script_params()
       --archive_file_checksum=*)
         MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM="${1#*=}"
         MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${TRUE_STRING}"
+        ;;
+      --source_url_directory=*)
+        MAVEN_SOURCE_URL_DIRECTORY="${1#*=}"
         ;;
       --install_directory=*)
         INSTALL_DIRECTORY="${1#*=}"
@@ -209,6 +214,7 @@ parse_script_params()
     msg "Error: Missing parameter value: --version"
     abort_script
   fi
+  MAVEN_VERSION_MAJOR="${MAVEN_VERSION%%.*}"
 #  if [ -z "${MAVEN_VERSION_PARAM}" ]; then
 #    MAVEN_VERSION="${MAVEN_VERSION_DEFAULT}"
 #  else
@@ -235,7 +241,11 @@ parse_script_params()
 #    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=" # Empty extra-vars expresion to satisfy the ansible-playbook command construction.
     MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   fi
-
+  if [ -z "${MAVEN_SOURCE_URL_DIRECTORY}" ]; then
+    MAVEN_SOURCE_URL_DIRECTORY="http://archive.apache.org/dist/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}/binaries"
+  fi
+  echo "MAVEN_VERSION_MAJOR is ${MAVEN_VERSION_MAJOR}"
+  echo "MAVEN_SOURCE_URL_DIRECTORY is ${MAVEN_SOURCE_URL_DIRECTORY}"
 
 #  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
 #    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
