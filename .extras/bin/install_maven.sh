@@ -129,7 +129,7 @@ construct_ansible_command_options_array()
     "--extra-vars=adrianjuhl__maven__maven_alternatives_state=${MAVEN_ALTERNATIVES_STATE}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
-  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[*]}<<"
+  #echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[*]}<<"
   ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY=()
   for element in "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@]}"; do
     trimmed_element="${element// /}"
@@ -137,7 +137,7 @@ construct_ansible_command_options_array()
       ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY+=("${trimmed_element}")
     fi
   done
-  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[*]}<<"
+  #echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY[*]}<<"
 }
 
 parse_script_params()
