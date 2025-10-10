@@ -1,13 +1,13 @@
 ---
 # defaults file for adrianjuhl.maven
 
-adrianjuhl__maven__version: "3.9.6"
+adrianjuhl__maven__maven_version: "3.9.6"
 
-adrianjuhl__maven__version_major: "{{ adrianjuhl__maven__version.split('.')[0] }}"
+adrianjuhl__maven__maven_version_major: "{{ adrianjuhl__maven__version.split('.')[0] }}"
 
-adrianjuhl__maven__archive_file_name: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
+adrianjuhl__maven__maven_archive_file_name: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
 
-adrianjuhl__maven__archive_file_checksums:
+adrianjuhl__maven__maven_archive_file_checksums:
   3.0.5:
     algorithm: "sha1"
     checksum: "aecc0d3d67732939c0056d4a0d8510483ee1167e"
@@ -66,15 +66,15 @@ adrianjuhl__maven__archive_file_checksums:
     algorithm: "sha512"
     checksum: "706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18224"
 
-adrianjuhl__maven__archive_file_checksum: "{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].checksum }}"
+adrianjuhl__maven__maven_archive_file_checksum: "{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].checksum }}"
 
-adrianjuhl__maven__source_url_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/binaries"
+adrianjuhl__maven__maven_source_url_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/binaries"
 
-adrianjuhl__maven__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+adrianjuhl__maven__maven_download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
 
-adrianjuhl__maven__install_directory: "/opt/maven"
+adrianjuhl__maven__mavne_install_directory: "/opt/maven"
 
-adrianjuhl__maven__alternatives_priority: 50
+adrianjuhl__maven__maven_alternatives_priority: 50
 
-adrianjuhl__maven__alternatives_state: "selected"
+adrianjuhl__maven__maven_alternatives_state: "selected"
 
