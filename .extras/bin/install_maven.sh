@@ -89,14 +89,12 @@ install_maven()
     ASK_BECOME_PASS_OPTION="--ask-become-pass"
   fi
 
-  SOMETHING=""
-
   ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
     --inventory="localhost," \
     --connection=local \
     --extra-vars="adrianjuhl__maven__version=${MAVEN_VERSION}" \
     --extra-vars="adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}" \
-    ${SOMETHING} \
+    ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM} \
     --extra-vars="adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}" \
     --extra-vars="local_playbook__install_maven__requires_become=${REQUIRES_BECOME}" \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
@@ -107,6 +105,9 @@ parse_script_params()
   MAVEN_VERSION="3.9.6"
   MAVEN_ARCHIVE_FILE_NAME_PARAM=""
   MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${FALSE_STRING}"
+  MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM=""
+  MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${FALSE_STRING}"
+  MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   INSTALL_DIRECTORY="/opt/maven"
   REQUIRES_BECOME="${TRUE_STRING}"
   REQUIRES_BECOME_PARAM=""
@@ -123,6 +124,10 @@ parse_script_params()
       --archive_file_name=*)
         MAVEN_ARCHIVE_FILE_NAME_PARAM="${1#*=}"
         MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${TRUE_STRING}"
+        ;;
+      --archive_file_checksum=*)
+        MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM="${1#*=}"
+        MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${TRUE_STRING}"
         ;;
       --install_directory=*)
         INSTALL_DIRECTORY="${1#*=}"
@@ -190,6 +195,18 @@ parse_script_params()
   else
     MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
   fi
+  if [ "${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT}" = "${TRUE_STRING}" ]; then
+    if [ -z "${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}" ]; then
+      msg "Error: Missing archive_file_checksum value: --archive_file_name"
+      abort_script
+    else
+      MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=\"adrianjuhl__maven__archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}\""
+    fi
+  else
+    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="dummy"
+  fi
+
+
 #  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
 #    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 #  else
