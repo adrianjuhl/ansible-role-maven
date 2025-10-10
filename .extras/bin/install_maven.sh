@@ -90,12 +90,13 @@ install_maven()
   fi
 
   echo "MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM is: ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}"
+#    ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM} \
   ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
     --inventory="localhost," \
     --connection=local \
     --extra-vars="adrianjuhl__maven__version=${MAVEN_VERSION}" \
     --extra-vars="adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}" \
-    ${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM} \
+    --extra-vars="adrianjuhl__maven__archive_file_checksum=sha512:blah_from_command_line" \
     --extra-vars="adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}" \
     --extra-vars="local_playbook__install_maven__requires_become=${REQUIRES_BECOME}" \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
