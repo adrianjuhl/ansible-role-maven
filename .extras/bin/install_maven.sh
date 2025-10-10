@@ -21,7 +21,7 @@ Usage:  ${THIS_SCRIPT_NAME}
             [--help | -h]
             [--script_debug]
 
-Install rhsso_cli.
+Install maven.
 
 Available options:
     --dry_run
@@ -49,6 +49,13 @@ Available options:
     --install_directory=<install_directory>
         The directory in which to install maven.
         Default: "/opt/maven"
+    --alternatives_priority=<alternatives_priority>
+        The alternatives priority value to give to this installation of mvn.
+        Default: 50
+    --alternatives_state=<alternatives_state>
+        The alternatives state to configure for this installation of mvn.
+        Valid values: present, selected, auto, absent
+        Default: selected
     --requires_become=<true|false>
         Is privilege escalation required?
         Default: true
@@ -141,6 +148,8 @@ parse_script_params()
   MAVEN_SOURCE_URL_DIRECTORY=""
   MAVEN_DOWNLOAD_DIRECTORY=""
   INSTALL_DIRECTORY="/opt/maven"
+  MAVEN_ALTERNATIVES_PRIORITY="50"
+  MAVEN_ALTERNATIVES_STATE="selected"
   REQUIRES_BECOME="${TRUE_STRING}"
   REQUIRES_BECOME_PARAM=""
   ANSIBLE_CHECK_MODE_ARGUMENT=""
@@ -169,6 +178,12 @@ parse_script_params()
         ;;
       --install_directory=*)
         INSTALL_DIRECTORY="${1#*=}"
+        ;;
+      --alternatives_priority=*)
+        MAVEN_ALTERNATIVES_PRIORITY="${1#*=}"
+        ;;
+      --alternatives_state=*)
+        MAVEN_ALTERNATIVES_STATE="${1#*=}"
         ;;
       --requires_become=*)
         REQUIRES_BECOME_PARAM="${1#*=}"
@@ -211,7 +226,7 @@ parse_script_params()
       REQUIRES_BECOME="${TRUE_STRING}"
       ;;
     *)
-      msg "Error: Invalid requires_become param value: ${REQUIRES_BECOME_PARAM}, expected one of: true, false"
+      msg "Error: Invalid requires_become parameter value: ${REQUIRES_BECOME_PARAM}, expected one of: true, false"
       abort_script
       ;;
   esac
@@ -255,6 +270,27 @@ parse_script_params()
     MAVEN_DOWNLOAD_DIRECTORY="${HOME}/.ansible/tmp/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
   fi
   echo "MAVEN_DOWNLOAD_DIRECTORY is ${MAVEN_DOWNLOAD_DIRECTORY}"
+  if [ -z "${MAVEN_ALTERNATIVES_PRIORITY}" ]; then
+    msg "Error: Missing parameter value: --alternatives_priority"
+    abort_script
+  fi
+  echo "MAVEN_ALTERNATIVES_PRIORITY is ${MAVEN_ALTERNATIVES_PRIORITY}"
+  case "${MAVEN_ALTERNATIVES_STATE}" in
+    "present")
+      ;;
+    "selected")
+      ;;
+    "auto")
+      ;;
+    "absent")
+      ;;
+    *)
+      msg "Error: Invalid alternatives_state parameter value: ${MAVEN_ALTERNATIVES_STATE}, expected one of: present, selected, auto, absent"
+      abort_script
+      ;;
+  esac
+  echo "MAVEN_ALTERNATIVES_STATE is ${MAVEN_ALTERNATIVES_STATE}"
+
 #  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
 #    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 #  else
