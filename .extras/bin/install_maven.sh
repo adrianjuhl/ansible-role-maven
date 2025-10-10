@@ -111,6 +111,7 @@ install_maven()
     "--extra-vars=adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}"
     "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM}"
     "--extra-vars=adrianjuhl__maven__source_url_directory=${MAVEN_SOURCE_URL_DIRECTORY}"
+    "--extra-vars=adrianjuhl__maven__download_directory=${MAVEN_DOWNLOAD_DIRECTORY}"
     "--extra-vars=adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
@@ -138,6 +139,7 @@ parse_script_params()
   MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM_PRESENT="${FALSE_STRING}"
   MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   MAVEN_SOURCE_URL_DIRECTORY=""
+  MAVEN_DOWNLOAD_DIRECTORY=""
   INSTALL_DIRECTORY="/opt/maven"
   REQUIRES_BECOME="${TRUE_STRING}"
   REQUIRES_BECOME_PARAM=""
@@ -161,6 +163,9 @@ parse_script_params()
         ;;
       --source_url_directory=*)
         MAVEN_SOURCE_URL_DIRECTORY="${1#*=}"
+        ;;
+      --download_directory=*)
+        MAVEN_DOWNLOAD_DIRECTORY="${1#*=}"
         ;;
       --install_directory=*)
         INSTALL_DIRECTORY="${1#*=}"
@@ -246,7 +251,10 @@ parse_script_params()
   fi
   echo "MAVEN_VERSION_MAJOR is ${MAVEN_VERSION_MAJOR}"
   echo "MAVEN_SOURCE_URL_DIRECTORY is ${MAVEN_SOURCE_URL_DIRECTORY}"
-
+  if [ -z "${MAVEN_DOWNLOAD_DIRECTORY}" ]; then
+    MAVEN_DOWNLOAD_DIRECTORY="${HOME}/.ansible/tmp/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
+  fi
+  echo "MAVEN_DOWNLOAD_DIRECTORY is ${MAVEN_DOWNLOAD_DIRECTORY}"
 #  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
 #    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 #  else
