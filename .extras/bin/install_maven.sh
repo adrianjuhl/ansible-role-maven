@@ -220,7 +220,8 @@ parse_script_params()
       MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=adrianjuhl__maven__archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}"
     fi
   else
-    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=" # Empty extra-vars expresion to satisfy the ansible-playbook command construction.
+#    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--extra-vars=" # Empty extra-vars expresion to satisfy the ansible-playbook command construction.
+    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=""
   fi
 
 
