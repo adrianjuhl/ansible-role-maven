@@ -5,13 +5,18 @@
 usage()
 {
   cat <<USAGE_TEXT
-Usage:  $(basename "${BASH_SOURCE[0]}")
+Usage:  ${THIS_SCRIPT_NAME}
             [--dry_run]
             [--show_diff]
             [--verbose]
-            [--maven_version=<version>]
-            [--maven_archive_file_checksum=<algorithm_and_checksum>]
+            [--version=<version>]
+            [--archive_file_name=<archive_file_name>]
+            [--archive_file_checksum=<algorithm_and_checksum>]
+            [--source_url_directory=<source_url_directory>]
+            [--download_directory=<download_directory>]
             [--install_directory=<install_directory>]
+            [--alternatives_priority=<alternatives_priority>]
+            [--alternatives_state=<alternatives_state>]
             [--requires_become=<true|false>]
             [--help | -h]
             [--script_debug]
@@ -25,12 +30,25 @@ Available options:
         Show before/after changes to config.
     --verbose
         Show additional detail.
-    --maven_version=<version>
+    --version=<version>
         The version of maven to install.
-        Default: 3.9.6
+        Default: "3.9.6"
+    --archive_file_name=<archive_file_name>
+        The name of the maven archive file.
+        Default: "apache-maven-<version>-bin.tar.gz"
+        e.g. "apache-maven-3.9.6-bin.tar.gz"
+    --archive_file_checksum=<algorithm_and_checksum>
+        The "algorithm:checksum" value of the archive file.
+        Defaults to the correct value for the maven version.
+    --source_url_directory=<source_url_directory>
+        The URL of the directory where the archive file is to be downloaded from.
+        Default: "http://archive.apache.org/dist/maven/maven-<version_major>/<version>/binaries"
+    --download_directory=<download_directory>
+        The directory where the maven archive file is to be downloaded to.
+        Default: "/home/username/.ansible/tmp/downloads/maven/maven-3/3.9.6"
     --install_directory=<install_directory>
         The directory in which to install maven.
-        Default: /opt/maven
+        Default: "/opt/maven"
     --requires_become=<true|false>
         Is privilege escalation required?
         Default: true
@@ -74,8 +92,9 @@ install_maven()
   ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
     --inventory="localhost," \
     --connection=local \
-    --extra-vars="adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}" \
     --extra-vars="adrianjuhl__maven__version=${MAVEN_VERSION}" \
+    --extra-vars="adrianjuhl__maven__archive_file_name=${MAVEN_ARCHIVE_FILE_NAME}" \
+    --extra-vars="adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}" \
     --extra-vars="local_playbook__install_maven__requires_become=${REQUIRES_BECOME}" \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
 }
@@ -83,6 +102,8 @@ install_maven()
 parse_script_params()
 {
   MAVEN_VERSION="3.9.6"
+  MAVEN_ARCHIVE_FILE_NAME_PARAM=""
+  MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${FALSE_STRING}"
   INSTALL_DIRECTORY="/opt/maven"
   REQUIRES_BECOME="${TRUE_STRING}"
   REQUIRES_BECOME_PARAM=""
@@ -93,8 +114,12 @@ parse_script_params()
   while [ "${#}" -gt 0 ]
   do
     case "${1-}" in
-      --maven_version=*)
+      --version=*)
         MAVEN_VERSION="${1#*=}"
+        ;;
+      --archive_file_name=*)
+        MAVEN_ARCHIVE_FILE_NAME_PARAM="${1#*=}"
+        MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${TRUE_STRING}"
         ;;
       --install_directory=*)
         INSTALL_DIRECTORY="${1#*=}"
@@ -143,25 +168,138 @@ parse_script_params()
       abort_script
       ;;
   esac
+  if [ -z "${MAVEN_VERSION}" ]; then
+    msg "Error: Missing parameter value: --version"
+    abort_script
+  fi
+#  if [ -z "${MAVEN_VERSION_PARAM}" ]; then
+#    MAVEN_VERSION="${MAVEN_VERSION_DEFAULT}"
+#  else
+#    MAVEN_VERSION="${MAVEN_VERSION_PARAM}"
+#  fi
+  if [ "${MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT}" = "${TRUE_STRING}" ]; then
+    if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
+      msg "Error: Missing parameter value: --archive_file_name"
+      abort_script
+    else
+      MAVEN_ARCHIVE_FILE_NAME="${MAVEN_ARCHIVE_FILE_NAME_PARAM}"
+    fi
+  else
+    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+  fi
+#  if [ -z "${MAVEN_ARCHIVE_FILE_NAME_PARAM}" ]; then
+#    MAVEN_ARCHIVE_FILE_NAME="apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+#  else
+#    MAVEN_ARCHIVE_FILE_NAME="${MAVEN_ARCHIVE_FILE_NAME_PARAM}"
+#  fi
   #echo "REQUIRES_BECOME_PARAM is: ${REQUIRES_BECOME_PARAM}"
   #echo "REQUIRES_BECOME is: ${REQUIRES_BECOME}"
 }
+
+#  initialize()
+#  {
+#    set -o pipefail
+#    THIS_SCRIPT_PROCESS_ID=$$
+#    initialize_this_script_directory_variable
+#    initialize_abort_script_config
+#    initialize_true_and_false_strings
+#  }
+#  
+#  initialize_this_script_directory_variable()
+#  {
+#    # THIS_SCRIPT_DIRECTORY where this script resides.
+#    # See: https://www.binaryphile.com/bash/2020/01/12/determining-the-location-of-your-script-in-bash.html
+#    # See: https://stackoverflow.com/a/67149152
+#    THIS_SCRIPT_DIRECTORY=$(cd "$(dirname -- "$BASH_SOURCE")"; cd -P -- "$(dirname "$(readlink -- "$BASH_SOURCE" || echo .)")"; pwd)
+#  }
+#  
+#  initialize_true_and_false_strings()
+#  {
+#    # Bash doesn't have a native true/false, just strings and numbers,
+#    # so this is as clear as it can be, using, for example:
+#    # if [ "${my_boolean_var}" = "${TRUE_STRING}" ]; then
+#    # where previously 'my_boolean_var' is set to either ${TRUE_STRING} or ${FALSE_STRING}
+#    TRUE_STRING="true"
+#    FALSE_STRING="false"
+#  }
+#  
+#  initialize_abort_script_config()
+#  {
+#    # Exit shell script from within the script or from any subshell within this script - adapted from:
+#    # https://cravencode.com/post/essentials/exit-shell-script-from-subshell/
+#    # Exit with exit status 1 if this (top level process of this script) receives the SIGUSR1 signal.
+#    # See also the abort_script() function which sends the signal.
+#    trap "exit 1" SIGUSR1
+#  }
+#  
+#  abort_script()
+#  {
+#    echo >&2 "aborting..."
+#    kill -SIGUSR1 ${THIS_SCRIPT_PROCESS_ID}
+#    exit
+#  }
+#  
+#  msg()
+#  {
+#    echo >&2 -e "${@}"
+#  }
+#  
+#  # Main entry into the script - call the main() function
+#  main "${@}"
 
 initialize()
 {
   set -o pipefail
   THIS_SCRIPT_PROCESS_ID=$$
-  initialize_this_script_directory_variable
   initialize_abort_script_config
+  initialize_this_script_directory_variable
+  initialize_this_script_name_variable
   initialize_true_and_false_strings
+  initialize_function_capture_stdout_and_stderr
+}
+
+initialize_abort_script_config()
+{
+  # Exit shell script from within the script or from any subshell within this script - adapted from:
+  # https://cravencode.com/post/essentials/exit-shell-script-from-subshell/
+  # Exit with exit status 1 if this (top level process of this script) receives the SIGUSR1 signal.
+  # See also the abort_script() function which sends the signal.
+  trap "exit 1" SIGUSR1
 }
 
 initialize_this_script_directory_variable()
 {
-  # THIS_SCRIPT_DIRECTORY where this script resides.
+  # Determines the value of THIS_SCRIPT_DIRECTORY, the absolute directory name where this script resides.
   # See: https://www.binaryphile.com/bash/2020/01/12/determining-the-location-of-your-script-in-bash.html
   # See: https://stackoverflow.com/a/67149152
-  THIS_SCRIPT_DIRECTORY=$(cd "$(dirname -- "$BASH_SOURCE")"; cd -P -- "$(dirname "$(readlink -- "$BASH_SOURCE" || echo .)")"; pwd)
+  local last_command_return_code
+  THIS_SCRIPT_DIRECTORY=$(cd "$(dirname -- "${BASH_SOURCE[0]}")" || exit 1; cd -P -- "$(dirname "$(readlink -- "${BASH_SOURCE[0]}" || echo .)")" || exit 1; pwd)
+  last_command_return_code="$?"
+  if [ "${last_command_return_code}" -gt 0 ]; then
+    # This should not occur for the above command pipeline.
+    msg
+    msg "Error: Failed to determine the value of this_script_directory."
+    msg
+    abort_script
+  fi
+}
+
+initialize_this_script_name_variable()
+{
+  local path_to_invoked_script
+  local default_script_name
+  path_to_invoked_script="${BASH_SOURCE[0]}"
+  default_script_name=""
+  if grep -q '/dev/fd' <(dirname "${path_to_invoked_script}"); then
+    # The script was invoked via process substitution
+    if [ -z "${default_script_name}" ]; then
+      THIS_SCRIPT_NAME="<script invoked via file descriptor (process substitution) and no default name set>"
+    else
+      THIS_SCRIPT_NAME="${default_script_name}"
+    fi
+  else
+    THIS_SCRIPT_NAME="$(basename "${path_to_invoked_script}")"
+  fi
 }
 
 initialize_true_and_false_strings()
@@ -174,13 +312,15 @@ initialize_true_and_false_strings()
   FALSE_STRING="false"
 }
 
-initialize_abort_script_config()
+initialize_function_capture_stdout_and_stderr()
 {
-  # Exit shell script from within the script or from any subshell within this script - adapted from:
-  # https://cravencode.com/post/essentials/exit-shell-script-from-subshell/
-  # Exit with exit status 1 if this (top level process of this script) receives the SIGUSR1 signal.
-  # See also the abort_script() function which sends the signal.
-  trap "exit 1" SIGUSR1
+  local capture_stdout_and_stderr_script_path
+  capture_stdout_and_stderr_script_path="/usr/local/bin/capture_stdout_and_stderr.d/${capture_stdout_and_stderr_version}/capture_stdout_and_stderr.sh"
+  if [ -f "${capture_stdout_and_stderr_script_path}" ]; then
+    . "${capture_stdout_and_stderr_script_path}"
+  else
+    echo >&2 "[WARNING] capture_stdout_and_stderr script file was not found (${capture_stdout_and_stderr_script_path})."
+  fi
 }
 
 abort_script()

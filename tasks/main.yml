@@ -9,7 +9,9 @@
 
 - name: Download Maven
   get_url:
-    url: "{{ adrianjuhl__maven__source_directory }}/{{ adrianjuhl__maven__archive_filename }}"
+#    url: "{{ adrianjuhl__maven__source_directory }}/{{ adrianjuhl__maven__archive_file_name }}"
+#    url: "{{ adrianjuhl__maven__source_url }}"
+    url: "{{ adrianjuhl__maven__source_url_directory }}/{{ adrianjuhl__maven__archive_file_name }}"
     dest: "{{ adrianjuhl__maven__download_directory }}"
     checksum: "{{ adrianjuhl__maven__archive_file_checksum }}"
     force: no
@@ -22,7 +24,7 @@
 
 - name: Unarchive maven.
   unarchive:
-    src: "{{ adrianjuhl__maven__download_directory }}/{{ adrianjuhl__maven__archive_filename }}"
+    src: "{{ adrianjuhl__maven__download_directory }}/{{ adrianjuhl__maven__archive_file_name }}"
     dest: "{{ adrianjuhl__maven__install_directory }}"
     copy: false
 
