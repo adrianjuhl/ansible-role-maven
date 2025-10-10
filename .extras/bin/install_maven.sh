@@ -54,7 +54,7 @@ Available options:
         Default: 50
     --alternatives_state=<alternatives_state>
         The alternatives state to configure for this installation of mvn.
-        Valid values: present, selected, auto, absent
+        Valid values: present, selected
         Default: selected
     --requires_become=<true|false>
         Is privilege escalation required?
@@ -282,12 +282,8 @@ parse_script_params()
       ;;
     "selected")
       ;;
-    "auto")
-      ;;
-    "absent")
-      ;;
     *)
-      msg "Error: Invalid alternatives_state parameter value: ${MAVEN_ALTERNATIVES_STATE}, expected one of: present, selected, auto, absent"
+      msg "Error: Invalid alternatives_state parameter value: ${MAVEN_ALTERNATIVES_STATE}, expected one of: present, selected"
       abort_script
       ;;
   esac
