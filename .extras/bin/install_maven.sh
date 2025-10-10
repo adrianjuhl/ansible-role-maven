@@ -116,7 +116,7 @@ install_maven()
 #    --extra-vars=local_playbook__install_maven__requires_become="${REQUIRES_BECOME}" \
 #    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
   ansible-playbook \
-    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]} \
+    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]}" \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
 
 }
