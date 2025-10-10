@@ -66,7 +66,7 @@ adrianjuhl__maven__maven_archive_file_checksums:
     algorithm: "sha512"
     checksum: "706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18224"
 
-adrianjuhl__maven__maven_archive_file_checksum: "{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__maven_version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__maven_version].checksum }}"
+adrianjuhl__maven__maven_archive_file_checksum: "{{ adrianjuhl__maven__maven_archive_file_checksums[adrianjuhl__maven__maven_version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__maven_version].checksum }}"
 
 adrianjuhl__maven__maven_source_url_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__maven_version_major }}/{{ adrianjuhl__maven__maven_version }}/binaries"
 
