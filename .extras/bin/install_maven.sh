@@ -202,10 +202,11 @@ parse_script_params()
       msg "Error: Missing archive_file_checksum value: --archive_file_name"
       abort_script
     else
-      MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=( " --extra-vars=\"adrianjuhl__maven__archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}\" " )
+      MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM='--extra-vars="adrianjuhl__maven__archive_file_checksum=${MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM}"'
+      eval "MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=(${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM})"
     fi
   else
-    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM=( --version )
+    MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM="--version"
   fi
 
 
