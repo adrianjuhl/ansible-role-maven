@@ -120,6 +120,8 @@ install_maven()
     "--extra-vars=adrianjuhl__maven__source_url_directory=${MAVEN_SOURCE_URL_DIRECTORY}"
     "--extra-vars=adrianjuhl__maven__download_directory=${MAVEN_DOWNLOAD_DIRECTORY}"
     "--extra-vars=adrianjuhl__maven__install_directory=${INSTALL_DIRECTORY}"
+    "--extra-vars=adrianjuhl__maven__alternatives_priority=${MAVEN_ALTERNATIVES_PRIORITY}"
+    "--extra-vars=adrianjuhl__maven__alternatives_state=${MAVEN_ALTERNATIVES_STATE}"
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
   echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_ARRAY_PRELIMINARY[*]}<<"
