@@ -80,11 +80,7 @@ install_maven()
 {
   set_extras_direcotry_variable
   #EXTRAS_DIRECTORY="$(cd "${THIS_SCRIPT_DIRECTORY}/.."; pwd)"
-
-  export ANSIBLE_ROLES_PATH=${EXTRAS_DIRECTORY}/.ansible/roles/:${HOME}/.ansible/roles/
-  echo "ANSIBLE_ROLES_PATH is >>${ANSIBLE_ROLES_PATH}<<"
-  export ANSIBLE_ROLES_PATI="${EXTRAS_DIRECTORY}"/.ansible/roles/:${HOME}/.ansible/roles/
-  echo "ANSIBLE_ROLES_PATI is >>${ANSIBLE_ROLES_PATI}<<"
+  export ANSIBLE_ROLES_PATH="${EXTRAS_DIRECTORY}"/.ansible/roles/:${HOME}/.ansible/roles/
 
   # Install the dependencies of the playbook:
   ANSIBLE_ROLES_PATH=${HOME}/.ansible/roles/ \
@@ -183,6 +179,7 @@ parse_script_params()
       --script_debug)
         set -x
         SCRIPT_DEBUG_OPTION="${TRUE_STRING}"
+        if [ "${SCRIPT_DEBUG_OPTION}" = "${TRUE_STRING}" ]; then echo "Script debugging is on"; else echo "Script debugging is off"; fi
         ;;
       -?*)
         msg "Error: Unknown parameter: ${1}"
@@ -368,8 +365,9 @@ initialize_true_and_false_strings()
 initialize_function_capture_stdout_and_stderr()
 {
   local capture_stdout_and_stderr_script_path
-  capture_stdout_and_stderr_script_path="/usr/local/bin/capture_stdout_and_stderr.d/${capture_stdout_and_stderr_version}/capture_stdout_and_stderr.sh"
+  capture_stdout_and_stderr_script_path="/usr/local/bin/capture_stdout_and_stderr.sh"
   if [ -f "${capture_stdout_and_stderr_script_path}" ]; then
+    # shellcheck source=/dev/null
     . "${capture_stdout_and_stderr_script_path}"
   else
     echo >&2 "[WARNING] capture_stdout_and_stderr script file was not found (${capture_stdout_and_stderr_script_path})."
