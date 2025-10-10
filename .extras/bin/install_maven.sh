@@ -93,9 +93,9 @@ install_maven()
 #    --extra-vars="adrianjuhl__maven__archive_file_checksum=sha512:706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18225" \
 
   ANSIBLE_PLAYBOOK_COMMAND_OPTIONS=(
-    "${ANSIBLE_CHECK_MODE_ARGUMENT:---extra-vars=}"
-    "${ANSIBLE_DIFF_MODE_ARGUMENT:---extra-vars=}"
-    "${ANSIBLE_VERBOSE_ARGUMENT:---extra-vars=}" 
+    "${ANSIBLE_CHECK_MODE_ARGUMENT}"
+    "${ANSIBLE_DIFF_MODE_ARGUMENT}"
+    "${ANSIBLE_VERBOSE_ARGUMENT}" 
     "${ASK_BECOME_PASS_OPTION}"
     "--inventory=localhost,"
     "--connection=local"
@@ -106,6 +106,14 @@ install_maven()
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
   echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]}<<"
+  ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_NON_EMPTY=()
+  for element in "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]}"; do
+    trimmed_element="${element// /}"
+    if [ -n "${trimmed_element}" ]; then
+      ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_NON_EMPTY+=("${trimmed_element}")
+    fi
+  done
+  echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_NON_EMPTY[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_NON_EMPTY[@]}<<"
 #  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
 #    --inventory="localhost," \
 #    --connection=local \
@@ -115,7 +123,9 @@ install_maven()
 #    --extra-vars=adrianjuhl__maven__install_directory="${INSTALL_DIRECTORY}" \
 #    --extra-vars=local_playbook__install_maven__requires_become="${REQUIRES_BECOME}" \
 #    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
-  ansible-playbook "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]}" ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
+  ansible-playbook \
+    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS_NON_EMPTY[@]}" \
+    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
 
 }
 
