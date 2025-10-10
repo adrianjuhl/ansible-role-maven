@@ -1,6 +1,10 @@
 ---
 # tasks file for adrianjuhl.maven
 
+- name: "Log adrianjuhl__maven__archive_file_checksum"
+  ansible.builtin.debug:
+    msg: "The value of adrianjuhl__maven__archive_file_checksum is: {{ adrianjuhl__maven__archive_file_checksum }}"
+
 - name: Create download directory
   file:
     dest: "{{ adrianjuhl__maven__download_directory }}"
