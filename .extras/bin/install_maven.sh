@@ -106,15 +106,19 @@ install_maven()
     "--extra-vars=local_playbook__install_maven__requires_become=${REQUIRES_BECOME}"
   )
   echo "ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@] is: >>${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]}<<"
-  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
-    --inventory="localhost," \
-    --connection=local \
-    --extra-vars=adrianjuhl__maven__version="${MAVEN_VERSION}" \
-    --extra-vars=adrianjuhl__maven__archive_file_name="${MAVEN_ARCHIVE_FILE_NAME}" \
-    "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM[@]}" \
-    --extra-vars=adrianjuhl__maven__install_directory="${INSTALL_DIRECTORY}" \
-    --extra-vars=local_playbook__install_maven__requires_become="${REQUIRES_BECOME}" \
+#  ansible-playbook ${ANSIBLE_CHECK_MODE_ARGUMENT} ${ANSIBLE_DIFF_MODE_ARGUMENT} ${ANSIBLE_VERBOSE_ARGUMENT} ${ASK_BECOME_PASS_OPTION} \
+#    --inventory="localhost," \
+#    --connection=local \
+#    --extra-vars=adrianjuhl__maven__version="${MAVEN_VERSION}" \
+#    --extra-vars=adrianjuhl__maven__archive_file_name="${MAVEN_ARCHIVE_FILE_NAME}" \
+#    "${MAVEN_ARCHIVE_FILE_CHECKSUM_ANSIBLE_EXTRA_VARS_PARAM[@]}" \
+#    --extra-vars=adrianjuhl__maven__install_directory="${INSTALL_DIRECTORY}" \
+#    --extra-vars=local_playbook__install_maven__requires_become="${REQUIRES_BECOME}" \
+#    ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
+  ansible-playbook \
+    "${ANSIBLE_PLAYBOOK_COMMAND_OPTIONS[@]} \
     ${EXTRAS_DIRECTORY}/.ansible/playbooks/install_maven.yml
+
 }
 
 parse_script_params()
