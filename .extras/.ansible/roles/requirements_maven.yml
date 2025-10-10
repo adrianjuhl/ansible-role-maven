@@ -1,10 +1,10 @@
 ---
 # From ansible-galaxy (a release tag)
-- src: adrianjuhl.maven
-  version: 0.3.0
+#- src: adrianjuhl.maven
+#  version: 0.3.0
 
 # From a branch from the github repo
-#- src: https://github.com/adrianjuhl/ansible-role-maven
-#  scm: git
-#  version: 0.3.0-develop-1
-#  name: adrianjuhl.maven
+- src: https://github.com/adrianjuhl/ansible-role-maven
+  scm: git
+  version: 0.4.0-develop-WIP-1
+  name: adrianjuhl.maven
