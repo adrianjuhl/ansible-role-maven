@@ -5,7 +5,7 @@ galaxy_info:
   description: Installs maven
   author: Adrian Juhl
   license: MIT
-  min_ansible_version: 1.2
+  min_ansible_version: "1.2"
   platforms:
     - name: Debian
       versions:
