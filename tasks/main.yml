@@ -19,7 +19,7 @@
   ansible.builtin.file:
     dest: "{{ adrianjuhl__maven__maven_install_directory }}"
     state: "directory"
-    mode: "0755"
+    mode: "u=rwx,go=rx"
 
 - name: "Unarchive maven"
   ansible.builtin.unarchive:
