@@ -9,3 +9,6 @@ $ ansible-galaxy role import --role-name=$(yq '.galaxy_info.role_name' meta/main
 
 Initial implementation.
 
+### v0.4.0
+
+Exposed additional role parameters in the install script.

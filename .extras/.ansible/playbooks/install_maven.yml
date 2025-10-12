@@ -1,9 +1,9 @@
 ---
-- name: Install maven
-  hosts: localhost
+- name: "Install maven"
+  hosts: "localhost"
   tasks:
-    - name: Install maven
+    - name: "Install maven"
       include_role:
-        name: adrianjuhl.maven
+        name: "adrianjuhl.maven"
         apply:
           become: "{{ local_playbook__install_maven__requires_become }}"

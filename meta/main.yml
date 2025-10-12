@@ -1,24 +1,24 @@
 ---
 galaxy_info:
-  role_name: maven
-  namespace: adrianjuhl
-  description: Installs maven
-  author: Adrian Juhl
-  license: MIT
-  min_ansible_version: 1.2
+  role_name: "maven"
+  namespace: "adrianjuhl"
+  description: "Installs maven"
+  author: "Adrian Juhl"
+  license: "MIT"
+  min_ansible_version: "1.2"
   platforms:
-    - name: Debian
+    - name: "Debian"
       versions:
-        - all
-    - name: EL
+        - "all"
+    - name: "EL"
       versions:
-        - all
-    - name: Fedora
+        - "all"
+    - name: "Fedora"
       versions:
-        - all
-    - name: Ubuntu
+        - "all"
+    - name: "Ubuntu"
       versions:
-        - all
+        - "all"
   galaxy_tags: []
 
 dependencies: []
