@@ -20,12 +20,14 @@ The version of maven to install.
 **version_major**
 
     adrianjuhl__maven__version_major: "{{ adrianjuhl__maven__version.split('.')[0] }}"
+    i.e. "3"
 
 The major version of maven to install. Used to determine the URL to the maven install file on apache.org.
 
-**archive_filename**
+**archive_file_name**
 
-    adrianjuhl__maven__archive_filename: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
+    adrianjuhl__maven__archive_file_name: "apache-maven-{{ adrianjuhl__maven__version }}-bin.tar.gz"
+    i.e. "apache-maven-3.9.6-bin.tar.gz"
 
 The name of the maven download file.
 
@@ -38,18 +40,21 @@ The directory in which to install maven.
 **source_directory**
 
     adrianjuhl__maven__source_directory: "http://archive.apache.org/dist/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}/binaries"
+    i.e. "http://archive.apache.org/dist/maven/maven-3/3.9.6/binaries"
 
 The source location of the maven download file.
 
 **download_directory**
 
     adrianjuhl__maven__download_directory: "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-{{ adrianjuhl__maven__version_major }}/{{ adrianjuhl__maven__version }}"
+    i.e. "{{ ansible_env.HOME }}/.ansible/tmp/downloads/maven/maven-3/3.9.6"
 
 The directory into which the maven download file is to be placed.
 
 **archive_file_checksum**
 
     adrianjuhl__maven__archive_file_checksum: "{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].algorithm }}:{{ adrianjuhl__maven__archive_file_checksums[adrianjuhl__maven__version].checksum }}"
+    i.e. "sha512:706f01b20dec0305a822ab614d51f32b07ee11d0218175e55450242e49d2156386483b506b3a4e8a03ac8611bae96395fd5eec15f50d3013d5deed6d1ee18224"
 
 The checksum with which to check the downloaded archive file. The role contains the checksums for many of the releases of maven (in the adrianjuhl__maven__archive_file_checksums dictionary).
 
