@@ -1,7 +1,7 @@
 ---
 # defaults file for adrianjuhl.maven
 
-adrianjuhl__maven__maven_version: "3.9.6"
+adrianjuhl__maven__maven_version: "3.9.11"
 
 adrianjuhl__maven__maven_version_major: "{{ adrianjuhl__maven__maven_version.split('.')[0] }}"
 
