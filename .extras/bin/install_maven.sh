@@ -32,11 +32,11 @@ Available options:
         Show additional detail.
     --maven_version=<maven_version>
         The version of maven to install.
-        Default: "3.9.6"
+        Default: "3.9.11"
     --maven_archive_file_name=<maven_archive_file_name>
         The name of the maven archive file.
         Default: "apache-maven-<maven_version>-bin.tar.gz"
-        e.g. "apache-maven-3.9.6-bin.tar.gz"
+        e.g. "apache-maven-3.9.11-bin.tar.gz"
     --maven_archive_file_checksum=<algorithm_and_checksum>
         The "algorithm:checksum" value of the archive file.
         Defaults to the correct value for the maven version.
@@ -142,7 +142,7 @@ construct_ansible_command_options_array()
 
 parse_script_params()
 {
-  MAVEN_VERSION="3.9.6"
+  MAVEN_VERSION="3.9.11"
   MAVEN_ARCHIVE_FILE_NAME_PARAM=""
   MAVEN_ARCHIVE_FILE_NAME_PARAM_PRESENT="${FALSE_STRING}"
   MAVEN_ARCHIVE_FILE_CHECKSUM_PARAM=""
