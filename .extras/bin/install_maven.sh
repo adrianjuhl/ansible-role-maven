@@ -276,7 +276,7 @@ parse_script_params()
     msg "Error: Missing parameter value: --maven_alternatives_priority"
     abort_script
   fi
-  #echo "MAVEN_ALTERNATIVES_PRIORITY is ${MAVEN_ALTERNATIVES_PRIORITY}"
+  echo "MAVEN_ALTERNATIVES_PRIORITY is ${MAVEN_ALTERNATIVES_PRIORITY}"
   case "${MAVEN_ALTERNATIVES_STATE}" in
     "present")
       ;;
