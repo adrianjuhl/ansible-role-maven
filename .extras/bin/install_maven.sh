@@ -45,7 +45,7 @@ Available options:
         Default: "http://archive.apache.org/dist/maven/maven-<maven_version_major>/<maven_version>/binaries"
     --maven_download_directory=<maven_download_directory>
         The directory where the maven archive file is to be downloaded to.
-        Default: "/home/username/.ansible/tmp/downloads/maven/maven--<maven_version_major>/<maven_version>"
+        Default: "/tmp/ansible-role-maven/downloads/maven/maven--<maven_version_major>/<maven_version>"
     --maven_install_directory=<maven_install_directory>
         The directory in which to install maven.
         Default: "/opt/maven"
