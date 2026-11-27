@@ -268,7 +268,8 @@ parse_script_params()
   fi
   #echo "MAVEN_SOURCE_URL_DIRECTORY is ${MAVEN_SOURCE_URL_DIRECTORY}"
   if [ -z "${MAVEN_DOWNLOAD_DIRECTORY}" ]; then
-    MAVEN_DOWNLOAD_DIRECTORY="${HOME}/.ansible/tmp/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
+    #MAVEN_DOWNLOAD_DIRECTORY="${HOME}/.ansible/tmp/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
+    MAVEN_DOWNLOAD_DIRECTORY="/tmp/ansible-role-maven/downloads/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION}"
   fi
   #echo "MAVEN_DOWNLOAD_DIRECTORY is ${MAVEN_DOWNLOAD_DIRECTORY}"
   if [ -z "${MAVEN_ALTERNATIVES_PRIORITY}" ]; then
