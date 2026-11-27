@@ -96,3 +96,6 @@ adrianjuhl__maven__maven_archive_file_checksums:
   4.0.0-rc-5:
     algorithm: "sha512"
     checksum: "942c19fb75ab7a5d2a11001e3d6c8c6214c81d2736ebc613243d22f7b4ab0404092d47511317d767e8f22a1c634a3762cc7e6b4b6693580ac86e73c0bed1bee2"
+  4.0.0-rc-6:
+    algorithm: "sha512"
+    checksum: "3fba58e1c345a5aa1dbacfa7aceaf7b1a0fa9626e368eec4814fa7a7ebf0fe74f0e41481faef77f95d8738f9c1365f918c8b8c94d7c28656f067db61a8af7f2e"
