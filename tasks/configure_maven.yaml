@@ -4,7 +4,7 @@
   ansible.builtin.tempfile:
     state: "directory"
     suffix: _maven_download_directory
-    register: "maven_download_directory"
+  register: "maven_download_directory"
 
 - name: "maven_download_directory info"
   ansible.builtin.debug:
